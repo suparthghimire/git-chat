@@ -1,4 +1,61 @@
 extends layouts/layouts
 
+
+block styles 
+    link(rel="stylesheet", href="/css/rooms.css")
 block content 
-    p This is Chat Rooms Page 
+    
+    aside.users-section
+        .user-content 
+            .content
+                .display-img
+                    img(src="", alt="", id="avatar" class="avatar")
+                .user-text
+                    p.info-text
+                        span#username.data
+                    p.info-text Followers: 
+                        span#followers.data
+                    p.info-text Following: 
+                        span#following.data
+                    p.info-text Repositories: 
+                        span#repository.data
+            input#search.form-control(type="text", name="search",placeholder="search")
+            form(action="/auth/logout")
+                button.action-btn logout
+        .user-chats 
+            ul.chat-list
+               
+    main
+        header.other-user-info 
+            .content-other-user 
+                .display-img 
+                    img(src="https://source.unsplash.com/75x75", class="header-profile-img" alt="")
+                h3.username#header_username Username
+            .menu  
+                button#open_aside 
+                    span.nav-btn
+        .message-section 
+            ul.message-list
+                 li.message-item.self     
+                    .profile-img 
+                        img(src="https://source.unsplash.com/100x100", alt="")
+                    p.msg-text.self-msg Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, architecto.
+                 li.message-item.other     
+                    .profile-img 
+                        img(src="https://source.unsplash.com/100x100", alt="")
+                    p.msg-text.other-msg Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, architecto.
+                
+       
+            .message-text-input 
+                form#chat-msg-form(action="#")
+                    .message-form
+                        input#message-text.form-control(type="text", name="message_text", placeholder="Type Your Message")  
+                        button#send.send-message <i class="fas fa-paper-plane"></i>
+
+    
+
+block scripts 
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js")
+    script(src="/socket.io/socket.io.js") 
+    script(src="/js/rooms.js", type="module") 
+    script(src="/js/chat_interaction.js") 

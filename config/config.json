@@ -1,0 +1,27 @@
+{
+    "development": {
+        "username": "root",
+        "password": null,
+        "database": "db_chat_github",
+        "host": "127.0.0.1",
+        "dialect": "sqlite",
+        "storage": "./database/db_chat_github.sqlite3",
+        "logging": false
+    },
+    "test": {
+        "username": "root",
+        "password": null,
+        "database": "db_chat_github",
+        "host": "127.0.0.1",
+        "dialect": "sqlite",
+        "storage": "./database/db_chat_github.sqlite3"
+    },
+    "production": {
+        "username": "root",
+        "password": null,
+        "database": "db_chat_github",
+        "host": "127.0.0.1",
+        "dialect": "sqlite",
+        "storage": "./database/db_chat_github.sqlite3"
+    }
+}

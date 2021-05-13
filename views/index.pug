@@ -1,9 +1,13 @@
 extends layouts/layouts
 
+block styles 
+    link(rel="stylesheet", href="/css/index.css")
 block content 
-    p This is Index Page for connecting from github 
-    .btn-group 
-        button#login_from_github Login From Github
+    .container 
+        h2 Login To Get Started
+        .btn-group 
+        form(action="/auth/login", method="POST") 
+            button#login_from_github.action-btn <i class="fab fa-github"></i> Login From Github
 
 block scripts 
     script(src="/js/index.js") 
