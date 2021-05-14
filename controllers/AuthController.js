@@ -100,7 +100,10 @@ module.exports = {
         return res.redirect("/rooms");
       }
     } catch (err) {
-      res.json({ message: "Authorization Failed" });
+      res.json({
+        message: "Authorization Failed",
+        error: err,
+      });
     }
   },
   logout: (req, res) => {
