@@ -5,8 +5,7 @@
         "database": "db_chat_github",
         "host": "127.0.0.1",
         "dialect": "sqlite",
-        "storage": "./database/db_chat_github.sqlite3",
-        "logging": false
+        "storage": "./database/db_chat_github.sqlite3"
     },
     "test": {
         "username": "root",

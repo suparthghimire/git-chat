@@ -4,6 +4,8 @@ let selected_reciever = {
   avatar: null,
 };
 
+import { getConversationChatList } from "./api.js";
+
 const socket = io();
 
 const getAuthUser = () => {
@@ -86,36 +88,62 @@ const renderUserInformation = () => {
   repository.textContent = github_repository;
   image.src = github_avatar_url;
 };
+const selectUserEvent = (e, user) => {
+  fetchUserChatMessages(e);
+  selected_reciever.id = user.id;
+  selected_reciever.uname = user.username;
+  selected_reciever.avatar = user.avatar_url;
+  let sender_id = getAuthUser().id;
+  const selected_reciever_id = selected_reciever.id;
+  let room = generateRoomId(sender_id, selected_reciever_id);
+  console.log(sender_id, selected_reciever_id, room);
+  socket.emit("joinRoomDM", room);
+};
+
+const setConversationItem = (item, chatList) => {
+  const logged_in_userId = getAuthUser().id;
+  let user = {};
+
+  if (!item.sender_id) {
+    user.id = item.reciever_id;
+    user.username = item.reciever_name;
+    user.avatar_url = item.reciever_avatar;
+  } else {
+    if (item.sender_id == logged_in_userId) {
+      user.id = item.reciever_id;
+      user.username = item.reciever_name;
+      user.avatar_url = item.reciever_avatar;
+    } else if (item.reciever_id == logged_in_userId) {
+      user.id = item.sender_id;
+      user.username = item.sender_name;
+      user.avatar_url = item.sender_avatar;
+    }
+  }
+
+  const li = document.createElement("li");
+  li.classList.add("chat-item");
+  li.id = user.id;
+  li.innerHTML = `
+    <div class="display-img" id="${user.id}">
+      <img src="${user.avatar_url}"  id="${user.id}" alt="${user.username}">
+    </div>
+    <div class="chat-user" id="${user.id}">
+      <div class="username" id="${user.id}">
+        ${user.username}
+      </div>
+    </div>
+        `;
+  li.addEventListener("click", (e) => {
+    selectUserEvent(e, user);
+  });
+  chatList.appendChild(li);
+};
 
 const renderConversationList = (data) => {
   const chatList = document.querySelector(".chat-list");
   chatList.innerHTML = "";
   data.forEach((item) => {
-    const { reciever_id, reciever_name, avatar_url } = item;
-    const li = document.createElement("li");
-    li.classList.add("chat-item");
-    li.id = reciever_id;
-    li.innerHTML = `
-        <div class="display-img" id="${reciever_id}">
-          <img src="${avatar_url}"  id="${reciever_id}"alt="${reciever_name}">
-        </div>
-        <div class="chat-user" id="${reciever_id}">
-          <div class="username" id="${reciever_id}">
-            ${reciever_name}
-          </div>
-        </div>
-        `;
-    li.addEventListener("click", (e) => {
-      fetchUserChatMessages(e);
-      selected_reciever.id = reciever_id;
-      selected_reciever.uname = reciever_name;
-      selected_reciever.avatar = avatar_url;
-      let { sender_id } = getAuthUser();
-      const selected_reciever_id = selected_reciever.id;
-      let room = generateRoomId(sender_id, selected_reciever_id);
-      socket.emit("joinRoom", room);
-    });
-    chatList.appendChild(li);
+    setConversationItem(item, chatList);
   });
 };
 
@@ -129,18 +157,65 @@ const chatMessage = () => {
     const message = {
       sender_id: id,
       reciever_id: selected_reciever.id,
+      reciever_name: selected_reciever.uname,
       message: messageContent,
     };
+    console.log(selected_reciever.id);
+    manageConversationList(selected_reciever.id);
     socket.emit("messageSent", message);
   });
+};
+
+const renderSearchList = (data) => {
+  const searchList = document.querySelector(".search-list");
+  searchList.innerHTML = "";
+  data.forEach((item) => {
+    setConversationItem(item, searchList);
+  });
+};
+
+const re_renderConversationList = (data) => {
+  let chatList = document.querySelector(".chat-list");
+  chatList.innerHTML = "";
+  data.forEach((item) => {
+    let avatar = item.children[0].children[0].src;
+    let username = item.children[1].children[0].innerHTML.trim();
+    let id = item.id;
+    let obj = {
+      reciever_avatar: avatar,
+      reciever_name: username,
+      reciever_id: id,
+    };
+    setConversationItem(obj, chatList);
+  });
+};
+const manageConversationList = (id) => {
+  let li = document.getElementById(id);
+  console.log(li);
+  if (li != null) {
+    const chatList = document.querySelector(".chat-list");
+    let items = Array.from(chatList.children);
+    let nodeIndex = items.findIndex((item) => item.id == id);
+    let node;
+    if (nodeIndex != -1) node = items.splice(nodeIndex, 1)[0];
+    else node = li;
+    items.unshift(node);
+    re_renderConversationList(items);
+  } else {
+    getConversationChatList();
+  }
 };
 
 export {
   renderChatMessages,
   renderUserInformation,
   renderConversationList,
+  renderSearchList,
   chatMessage,
   setMessageItem,
   socket,
   selected_reciever,
+  setConversationItem,
+  manageConversationList,
+  getAuthUser,
 };

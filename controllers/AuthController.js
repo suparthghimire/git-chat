@@ -88,6 +88,7 @@ module.exports = {
       if (!user) throw "Authorization Failed!";
       else if (user) {
         const user_in_db = await saveUser(user);
+        console.log(user);
         const appUser = {
           id: user_in_db.dataValues.id,
         };

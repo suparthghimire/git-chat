@@ -16,4 +16,18 @@ module.exports = {
       res.redirect("/");
     }
   },
+  checkNoAuth: (req, res, next) => {
+    let jwtToken = req.cookies.jwt_gitchat;
+    if (jwtToken) {
+      jwt.verify(jwtToken, process.env.JWT_SECRET, (error, decodedToken) => {
+        if (error) {
+          next();
+        } else {
+          res.redirect("/rooms");
+        }
+      });
+    } else {
+      next();
+    }
+  },
 };

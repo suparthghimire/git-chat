@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const { checkAuth } = require("../middleware/AuthMiddleware");
+const { checkNoAuth } = require("../middleware/AuthMiddleware");
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get("/", checkNoAuth, (req, res) => {
   res.render("index");
 });
 

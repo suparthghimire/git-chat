@@ -19,7 +19,6 @@ block content
                         span#following.data
                     p.info-text Repositories: 
                         span#repository.data
-            input#search.form-control(type="text", name="search",placeholder="search")
             form(action="/auth/logout")
                 button.action-btn logout
         .user-chats 
@@ -52,7 +51,10 @@ block content
                         input#message-text.form-control(type="text", name="message_text", placeholder="Type Your Message")  
                         button#send.send-message <i class="fas fa-paper-plane"></i>
 
-    
+    aside.right-search 
+        input#search.form-control(type="text", name="search",placeholder="search")
+        ul.search-list 
+
 
 block scripts 
     script(src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js")

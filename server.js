@@ -13,15 +13,25 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
 io.on("connection", (socket) => {
+  socket.on("joinCommonRoom", (room) => {
+    socket.join(room.currentUsername);
+    console.log("Room:", room.currentUsername);
+  });
+
   let userRoom = null;
-  socket.on("joinRoom", (room) => {
+  socket.on("joinRoomDM", (room) => {
     socket.join(room);
+    console.log("join DM room", room);
     userRoom = room;
   });
   socket.on("messageSent", async (message) => {
     try {
-      if (await saveDirectConversation(message))
+      if (await saveDirectConversation(message)) {
+        console.log(message.reciever_name);
+        const a = io.to(message.reciever_name).emit("newMessage", message);
+        console.log(a);
         io.to(userRoom).emit("messageRecieve", message);
+      }
     } catch (error) {
       console.error(error);
     }
