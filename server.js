@@ -60,7 +60,7 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 app.use("/", require("./routes/pages"));
-app.use("/auth/", require("./routes/auth_api"));
+app.use("/auth", require("./routes/auth_api"));
 
 app.use("/rooms", checkAuth, require("./routes/rooms"));
 app.use("/message", checkAuth, require("./routes/message_api"));
