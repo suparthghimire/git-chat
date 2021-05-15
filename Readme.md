@@ -23,7 +23,7 @@ An Application for GitHub users to chat in real time**
 
 - **Pug:** Used as templating engine
 
-- **HTML/CSS:**C Website Structuring and Design
+- **HTML/CSS:** Website Structuring and Design
 
 - **VanillaJS:** Used for Ajax Requests of the application
 
