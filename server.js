@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const { checkAuth } = require("./middleware/AuthMiddleware");
 const fs = require("fs");
 const { sequelize } = require("./models/index");
-const { saveUsers, saveMessage, saveConversation } = require("./utils/startup");
+
 const { saveDirectConversation } = require("./utils/db_operation");
 const app = express();
 
@@ -70,9 +70,6 @@ server.listen(PORT, async () => {
   try {
     if (!fs.existsSync("./database/db_chat_github.sqlite3"))
       await sequelize.sync({ force: true });
-    // saveUsers();
-    // saveMessage();
-    // saveConversation();
   } catch (err) {
     console.log(err);
   }
