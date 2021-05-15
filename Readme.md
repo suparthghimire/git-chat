@@ -13,13 +13,19 @@ An Application for GitHub users to chat in real time**
 
 ### About Tools:
 
-[x] Node JS: Used for writing JavaScript in Server for the application
-[x] Express: Used for implementing server side logic, routing and Middleware
-[x] SQLite3: Database Used
-[x] Sequelize: Used as ORM for SQLite3
-[x] Pug: Used as templating engine
-[x] HTML/CSS: Website Structuring and Design
-[x] VanillaJS: Used for Ajax Requests of the application
+- **Node JS:** Used for writing JavaScript in Server for the application
+
+- **Express:** Used for implementing server side logic, routing and Middleware
+
+- **SQLite3:** Database Used
+
+- **Sequelize:** Used as ORM for SQLite3
+
+- **Pug:** Used as templating engine
+
+- **HTML/CSS:**C Website Structuring and Design
+
+- **VanillaJS:** Used for Ajax Requests of the application
 
 ---
 
