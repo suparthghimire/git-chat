@@ -38,12 +38,18 @@ An Application for GitHub users to chat in real time**
 ### Run Application Locally
 
 **To run the application locally, following steps should be taken**
-[x] Clone the Repository using command: `https://github.com/suparthghimire/git-chat.git`
-[x] Install NodeJS from This Link here: [link](https://nodejs.org/en/)
-[x] Install all packages using command: `npm install express sequelize sqlite3 socket.io pug`
-[x] Install optional dev dependencies: `npm install -D nodemon sequelize-cli`
-[x] If Nodemon was installed, use command: `npm run dev` else use `nom start`
-[x] Application will run on PORT:3000. Goto URL: `https://localhost:3000` to view the application
+
+- **Clone the Repository using command:** `https://github.com/suparthghimire/git-chat.git`
+
+- **Install NodeJS from This Link here:** [link](https://nodejs.org/en/)
+
+- **Install all packages using command:** `npm install express sequelize sqlite3 socket.io pug`
+
+- **Install optional dev dependencies:** `npm install -D nodemon sequelize-cli`
+
+- **If Nodemon was installed, use command:** `npm run dev` else use `nom start`
+
+- **Application will run on PORT:3000. Goto URL:** `https://localhost:3000` to view the application
 
 ---
 
