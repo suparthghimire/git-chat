@@ -75,7 +75,13 @@ const createToken = (payload) => {
 };
 module.exports = {
   login: (req, res) => {
-    const redirect_uri = "http://localhost:3000/auth/login/callback";
+    let redirect_uri;
+    if (process.env.APP_PHASE == "development")
+      redirect_uri = "http://localhost:3000/auth/login/callback";
+    else if (process.env.APP_PHASE == "production")
+      redirect_uri =
+        "https://suparth-git-chat.herokuapp.com/auth/login/callback";
+
     const redirect_url = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
     res.redirect(redirect_url);
   },
