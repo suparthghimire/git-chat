@@ -119,7 +119,7 @@ module.exports = {
         const reciever_id = parseInt(req.body.id);
         let allConversation = await sequelize.query(
           `
-          select sender_id, message_id, reciever_id,
+          select Conversations.id, sender_id, message_id, reciever_id,
           UserModels.github_name as reciever_name,
           UserModels.github_avatar_url as reciever_avatar,
           MessageModels.message, Conversations.createdAt from Conversations 

@@ -201,7 +201,8 @@ main {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin: 20px 0;
+    margin: 40px 0;
+    position: relative;
 }
 
 .self {
@@ -213,6 +214,7 @@ main {
     max-width: 40%;
     padding: 10px;
     border-radius: 5px;
+    position: relative;
 }
 
 .other-msg {
@@ -260,6 +262,66 @@ main {
 
 #search {
     width: 100%;
+}
+
+.default-chat-window {
+    position: absolute;
+    height: 50%;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.reactions {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0px;
+    transform-origin: left;
+    transition: all 150ms ease-in-out;
+}
+
+.reactions>li {
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+    font-size: 0.8rem;
+    display: flex;
+    gap: 5px;
+    border: 1px solid #3d3d3d;
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.reactions>li:hover {
+    transform: translateY(-3px);
+}
+
+.love {
+    color: rgb(240, 71, 71);
+}
+
+.haha,
+.wow,
+.sad {
+    color: rgb(255, 196, 0);
+}
+
+.angry {
+    color: red;
+}
+
+.fa-angry {
+    background: -webkit-linear-gradient(rgba(66, 66, 66, 0.767), red, red);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.like,
+.dislike {
+    color: rgb(98, 145, 221);
 }
 
 @media only screen and (max-width: 960px) {

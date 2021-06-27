@@ -6,7 +6,11 @@ const { checkAuth } = require("./middleware/AuthMiddleware");
 const fs = require("fs");
 const { sequelize } = require("./models/index");
 
-const { saveDirectConversation } = require("./utils/db_operation");
+const {
+  saveDirectConversation,
+  saveReaction,
+} = require("./utils/db_operation");
+const { saveMessage } = require("./controllers/MessageController");
 const app = express();
 
 const server = require("http").createServer(app);
@@ -15,25 +19,29 @@ const io = require("socket.io")(server);
 io.on("connection", (socket) => {
   socket.on("joinCommonRoom", (room) => {
     socket.join(room.currentUsername);
-    console.log("Room:", room.currentUsername);
   });
 
   let userRoom = null;
   socket.on("joinRoomDM", (room) => {
     socket.join(room);
-    console.log("join DM room", room);
     userRoom = room;
   });
   socket.on("messageSent", async (message) => {
     try {
-      if (await saveDirectConversation(message)) {
-        console.log(message.reciever_name);
-        const a = io.to(message.reciever_name).emit("newMessage", message);
-        console.log(a);
+      const saveMessageId = await saveDirectConversation(message);
+      if (saveMessage) {
+        message.id = saveMessageId;
+        io.to(message.reciever_name).emit("newMessage", message);
         io.to(userRoom).emit("messageRecieve", message);
       }
     } catch (error) {
       console.error(error);
+    }
+  });
+  socket.on("reactionSave", async (reactionData) => {
+    const saveReactionStatus = saveReaction(reactionData);
+    if (saveReactionStatus) {
+      console.log("Reaction Saved");
     }
   });
 });

@@ -1,5 +1,4 @@
-const MessageModel = require("../models/index").MessageModel;
-const Conversation = require("../models/index").Conversation;
+const { MessageModel, Conversation, Reaction } = require("../models/index");
 
 const saveMessage = async (message) => {
   try {
@@ -23,7 +22,9 @@ const saveConversation = async (message, sender, reciever) => {
     const conversationSaved = await Conversation.create(conversation);
     if (!conversationSaved) throw Error("Error while Saving Conversation");
     else return conversationSaved;
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 module.exports = {
   saveDirectConversation: async (message) => {
@@ -34,8 +35,16 @@ module.exports = {
         message.sender_id,
         message.reciever_id
       );
-      if (savedConversation) return true;
-      else if (!savedConversation) return false;
-    } else if (!savedMessageId) return false;
+      if (savedConversation) return savedMessageId;
+      else if (!savedConversation) return null;
+    } else if (!savedMessageId) return null;
+  },
+  saveReaction: async (reactionData) => {
+    try {
+      const reactionSaved = await Reaction.create(reactionData);
+      if (reactionSaved) return true;
+    } catch (error) {
+      console.error(error);
+    }
   },
 };

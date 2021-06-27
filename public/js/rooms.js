@@ -4,6 +4,7 @@ import {
   socket,
   getAuthUser,
   manageConversationList,
+  reactionInteraction,
 } from "./utils/renderContent.js";
 import { getUser } from "./utils/api.js";
 
@@ -16,6 +17,7 @@ socket.on("messageRecieve", (message) => {
   ) {
     console.log(message);
     setMessageItem(message);
+    reactionInteraction();
   }
 });
 

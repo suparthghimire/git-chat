@@ -35,21 +35,62 @@ block content
                     span.nav-btn
         .message-section 
             ul.message-list
-                 li.message-item.self     
+                div.default-chat-window Choose a Person to Chat With
+                //-  li.message-item.self     
+                //-     .profile-img 
+                //-         img(src="https://source.unsplash.com/100x100", alt="")
+                //-     .msg-text.self-msg 
+                //-         | Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, architecto.
+                //-         ul.reactions 
+                //-             li.love 
+                //-                 i.fas.fa-heart
+                //-                 | 2                       
+                //-             li.haha 
+                //-                 i.fas.fa-laugh-squint 
+                //-                 | 2 
+                //-             li.wow 
+                //-                 i.fas.fa-surprise
+                //-                 | 2                     
+                //-             li.sad 
+                //-                 i.fas.fa-sad-tear 
+                //-                 | 2
+                //-             li.angry 
+                //-                 i.fas.fa-angry
+                //-                 | 2
+                //-             li.like 
+                //-                 i.fas.fa-thumbs-up
+                //-                 | 2
+                //-             li.dislike 
+                //-                 i.fas.fa-thumbs-down
+                //-                 | 2
+
+                //-  li.message-item.other     
                     .profile-img 
                         img(src="https://source.unsplash.com/100x100", alt="")
-                    p.msg-text.self-msg Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, architecto.
-                 li.message-item.other     
-                    .profile-img 
-                        img(src="https://source.unsplash.com/100x100", alt="")
-                    p.msg-text.other-msg Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, architecto.
-                
+                    .msg-text.other-msg 
+                        | Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, architecto.
+                        ul.reactions 
+                            li.love 
+                                i.fas.fa-heart                       
+                            li.haha 
+                                i.fas.fa-laugh-squint  
+                            li.wow 
+                                i.fas.fa-surprise                     
+                            li.sad 
+                                i.fas.fa-sad-tear 
+                            li.angry 
+                                i.fas.fa-angry
+                            li.like 
+                                i.fas.fa-thumbs-up
+                            li.dislike 
+                                i.fas.fa-thumbs-down
+                    
        
             .message-text-input 
                 form#chat-msg-form(action="#")
                     .message-form
                         input#message-text.form-control(type="text", name="message_text", placeholder="Type Your Message")  
-                        button#send.send-message <i class="fas fa-paper-plane"></i>
+                        button#send.send-message <i.far.fa-surprise class="fas fa-paper-plane"></i.far.fa-surprise>
 
     aside.right-search 
         input#search.form-control(type="text", name="search",placeholder="search")

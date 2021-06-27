@@ -27,8 +27,64 @@ const setMessageItem = (message) => {
       <div class="msg-text ${conversationStyleClassName}-msg">
         ${message.message}
       </div>
+          <ul class="reactions">
+            <li class="reaction love" data-reaction_id="1" data-reaction_count="0" data-user_react="false" data-message_id=${message.id}>
+              <i class="fas fa-heart"></i>
+              <span class="reaction_count_1_${message.id}">0</span>
+            </li>
+            <li class="reaction haha" data-reaction_id="2" data-reaction_count="0" data-user_react="false" data-message_id=${message.id}>
+              <i class="fas fa-laugh-squint"></i>
+              <span class="reaction_count_2_${message.id}">0</span>
+            </li>
+            <li class="reaction wow" data-reaction_id="3" data-reaction_count="0" data-user_react="false" data-message_id=${message.id}>
+              <i class="fas fa-surprise"></i>
+              <span class="reaction_count_3_${message.id}">0</span>
+            </li>
+            <li class="reaction sad" data-reaction_id="4" data-reaction_count="0" data-user_react="false" data-message_id=${message.id}>
+              <i class="fas fa-sad-tear"></i>
+              <span class="reaction_count_4_${message.id}">0</span>
+            </li>
+            <li class="reaction angry" data-reaction_id="5" data-reaction_count="0" data-user_react="false" data-message_id=${message.id}>
+              <i class="fas fa-angry"></i>
+              <span class="reaction_count_5_${message.id}">0</span>
+            </li>
+            <li class="reaction like" data-reaction_id="6" data-reaction_count="0" data-user_react="false" data-message_id=${message.id}>
+              <i class="fas fa-thumbs-up"></i>
+              <span class="reaction_count_6_${message.id}">0</span>
+            </li>
+            <li class="reaction dislike" data-reaction_id="7" data-reaction_count="0" data-user_react="false" data-message_id=${message.id}>
+              <i class="fas fa-thumbs-down"></i>
+              <span class="reaction_count_7_${message.id}">0</span>
+            </li>
+          </ul>
     `;
   messageList.appendChild(li);
+};
+
+const reactionInteraction = () => {
+  const reactions = document.querySelectorAll(".reaction");
+  reactions.forEach((reaction) => {
+    reaction.addEventListener("click", () => {
+      let userReact = reaction.dataset.user_react == "false" ? false : true;
+      let reactionCount = parseInt(reaction.dataset.reaction_count);
+      const messageId = reaction.dataset.message_id;
+      const userId = getAuthUser().id;
+      const reactionId = reaction.dataset.reaction_id;
+      if (!userReact) reactionCount++;
+      else reactionCount--;
+      reaction.dataset.user_react = !userReact;
+      reaction.dataset.reaction_count = reactionCount;
+      document.querySelector(
+        `.reaction_count_${reactionId}_${messageId}`
+      ).textContent = reactionCount;
+      const reactionData = {
+        reaction: parseInt(reactionId),
+        MessageModelId: messageId,
+        UserModelId: userId,
+      };
+      socket.emit("reactionSave", reactionData);
+    });
+  });
 };
 
 const renderChatMessages = (messages) => {
@@ -43,6 +99,7 @@ const renderChatMessages = (messages) => {
   messages.forEach((message) => {
     const li = setMessageItem(message);
   });
+  reactionInteraction();
 };
 const generateRoomId = (a, b) => {
   let x = a < b ? a : b;
@@ -96,7 +153,6 @@ const selectUserEvent = (e, user) => {
   let sender_id = getAuthUser().id;
   const selected_reciever_id = selected_reciever.id;
   let room = generateRoomId(sender_id, selected_reciever_id);
-  console.log(sender_id, selected_reciever_id, room);
   socket.emit("joinRoomDM", room);
 };
 
@@ -160,7 +216,6 @@ const chatMessage = () => {
       reciever_name: selected_reciever.uname,
       message: messageContent,
     };
-    console.log(selected_reciever.id);
     manageConversationList(selected_reciever.id);
     socket.emit("messageSent", message);
   });
@@ -191,7 +246,6 @@ const re_renderConversationList = (data) => {
 };
 const manageConversationList = (id) => {
   let li = document.getElementById(id);
-  console.log(li);
   if (li != null) {
     const chatList = document.querySelector(".chat-list");
     let items = Array.from(chatList.children);
@@ -210,6 +264,7 @@ export {
   renderChatMessages,
   renderUserInformation,
   renderConversationList,
+  reactionInteraction,
   renderSearchList,
   chatMessage,
   setMessageItem,
